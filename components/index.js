@@ -1,4 +1,4 @@
-import {  keys, keysObj } from './keys.js'
+import {  keys, keysObj, lang } from './keys.js'
 
 const body = document.querySelector('.body');
 
@@ -37,53 +37,45 @@ keyboard.className = 'keyboard';
 keyboard.id = 'keyboard';
 main.append(keyboard);
 
-// const keysObj = {
-//   Backquote: {
-//     rus: {
-//       caseDown: 'ё',
-//       caseUp: 'Ё',
-//       caps: 'Ё',
-//       shiftCaps: 'ё'
-//     },
-//     eng: {
-//       caseDown: '`',
-//       caseUp: '~',
-//       caps: '`',
-//       shiftCaps: '~'
-//     }
-//   }
-// }
+for (let i = 0; i < 5; i++) {
+  const keyboardRow = document.createElement('div');
+  keyboardRow.className = 'keyboard__row';
+  keyboard.append(keyboardRow);
 
-// Keyboard row
-// x5
-const keyboardRow = document.createElement('div');
-keyboardRow.className = 'keyboard__row row';
-keyboard.append(keyboardRow);
-// Keyboard key
-const keyboardKey = document.createElement('div');
-keyboardKey.className = 'keyboard__key key';
-keyboardKey.classList.add('Backquote');
-keyboardRow.append(keyboardKey);
-// rus / eng
-const rus = document.createElement('span');
-rus.className = 'rus';
-keyboardKey.append(rus);
-// caseDown
-const caseDown = document.createElement('span');
-caseDown.className = 'caseDown';
-rus.append(caseDown);
-// caseUp
-const caseUp = document.createElement('span');
-caseUp.className = 'caseUp';
-rus.append(caseUp);
-// caseUp
-const caps = document.createElement('span');
-caps.className = 'caps';
-rus.append(caps);
-// shiftCaps
-const shiftCaps = document.createElement('span');
-shiftCaps.className = 'shiftCaps';
-rus.append(shiftCaps);
+  for (let j = 0; j < keys[i].length; j++) {
+    // Keyboard key
+    const keyboardKey = document.createElement('div');
+    keyboardKey.className = 'keyboard__key';
+    keyboardKey.classList.add(keys[i][j]);
+    keyboardRow.append(keyboardKey);
+    // Langs
+    for (let k = 0; k < lang.length; k++) {
+      const spanLang = document.createElement('span');
+      spanLang.className = lang[k];
+      keyboardKey.append(spanLang);
+      // caseDown
+      const caseDown = document.createElement('span');
+      caseDown.className = 'caseDown';
+      caseDown.textContent = keysObj[keys[i][j]][lang[k]].caseDown;
+      spanLang.append(caseDown);
+      // caseUp
+      const caseUp = document.createElement('span');
+      caseUp.className = 'caseUp';
+      caseUp.textContent = keysObj[keys[i][j]][lang[k]].caseUp;
+      spanLang.append(caseUp);
+      // caseUp
+      const caps = document.createElement('span');
+      caps.className = 'caps';
+      caps.textContent = keysObj[keys[i][j]][lang[k]].caps;
+      spanLang.append(caps);
+      // shiftCaps
+      const shiftCaps = document.createElement('span');
+      shiftCaps.className = 'shiftCaps';
+      shiftCaps.textContent = keysObj[keys[i][j]][lang[k]].shiftCaps;
+      spanLang.append(shiftCaps);
+    }
+  }
+}
 
 // Footer
 const footer = document.createElement('footer');
