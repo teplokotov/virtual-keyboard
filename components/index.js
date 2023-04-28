@@ -154,6 +154,16 @@ keyboard.addEventListener('click', (evt) => {
             textarea.value += '\n';
           };
           break;
+        case 'Tab':
+          if (start >= 0 && start <= value.length) {
+            value = value.slice(0, start) + '    ' + value.slice(end, value.length);
+            textarea.value = value;
+            textarea.selectionStart = start + 4;
+            textarea.selectionEnd = start + 4;
+          } else {
+            textarea.value += '    ';
+          };
+          break;
       }
     } else {
       if (start >= 0 && start <= value.length) {
