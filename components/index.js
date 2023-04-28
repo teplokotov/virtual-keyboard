@@ -1,4 +1,4 @@
-import {  keys, keysObj, lang } from './keys.js'
+import {  keys, keysObj, lang, specialKeys } from './keys.js'
 
 let curLang = 'rus';
 let curMode = 'caseDown';
@@ -106,26 +106,44 @@ document.addEventListener('click', (evt) => {
 });
 
 keyboard.addEventListener('click', (evt) => {
+  textarea.focus();
   if (evt.target.closest('.keyboard__key')) {
 
-    const char = keysObj[evt.target.closest('.keyboard__key').classList[1]][curLang][curMode];
+    const charCode = evt.target.closest('.keyboard__key').classList[1];
+    const char = keysObj[charCode][curLang][curMode];
     let value = textarea.value;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-
-    if (start == end) {
+    let start;
+    let end;
+    let replace;
+    if (textarea.selectionStart == textarea.selectionEnd) {
+      start = end = textarea.selectionStart;
+      replace = start - 1;
+    } else {
+      start = textarea.selectionStart;
+      end = textarea.selectionEnd;
+      replace = start;
+    }
+    if (specialKeys.includes(charCode)) {
+      switch (charCode) {
+        case "Backspace":
+          if (start > 0 && start <= value.length) {
+            value = value.slice(0, replace) + value.slice(end, value.length),
+            textarea.value = value;
+            textarea.selectionStart = replace;
+            textarea.selectionEnd = replace;
+          };
+          break;
+      }
+    } else {
       if (start >= 0 && start <= value.length) {
-        textarea.value = value.slice(0, start) + char + value.slice(start, value.length);
+        textarea.value = value.slice(0, start) + char + value.slice(end, value.length);
         textarea.selectionStart = start + char.length;
         textarea.selectionEnd = start + char.length;
       } else {
         textarea.value += char;
       }
-    } else {
-      textarea.value = value.slice(0, start) + char + value.slice(end, value.length);
-      textarea.selectionStart = start + char.length;
-      textarea.selectionEnd = start + char.length;
     }
+
 
   }
 });
