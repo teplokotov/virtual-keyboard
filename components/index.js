@@ -114,23 +114,34 @@ keyboard.addEventListener('click', (evt) => {
     let value = textarea.value;
     let start;
     let end;
-    let replace;
+    let replaceLeft;
+    let replaceRight;
     if (textarea.selectionStart == textarea.selectionEnd) {
       start = end = textarea.selectionStart;
-      replace = start - 1;
+      replaceLeft = start - 1;
+      replaceRight = end + 1;
     } else {
       start = textarea.selectionStart;
       end = textarea.selectionEnd;
-      replace = start;
+      replaceLeft = start;
+      replaceRight = end;
     }
     if (specialKeys.includes(charCode)) {
       switch (charCode) {
-        case "Backspace":
+        case 'Backspace':
           if (start > 0 && start <= value.length) {
-            value = value.slice(0, replace) + value.slice(end, value.length),
+            value = value.slice(0, replaceLeft) + value.slice(end, value.length),
             textarea.value = value;
-            textarea.selectionStart = replace;
-            textarea.selectionEnd = replace;
+            textarea.selectionStart = replaceLeft;
+            textarea.selectionEnd = replaceLeft;
+          };
+          break;
+        case 'Delete':
+          if (start >= 0 && start <= value.length - 1) {
+            value = value.slice(0, start) + value.slice(replaceRight, value.length);
+            textarea.value = value;
+            textarea.selectionStart = start;
+            textarea.selectionEnd = start;
           };
           break;
       }
