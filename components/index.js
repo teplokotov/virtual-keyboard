@@ -136,7 +136,7 @@ keyboard.addEventListener('mousedown', (evt) => {
     if (specialKeys.includes(charCode)) {
       switch (charCode) {
         case 'Backspace':
-          if (start > 0 && start <= value.length) {
+          if (start >= 0 && start <= value.length) {
             value = value.slice(0, replaceLeft) + value.slice(end, value.length),
             textarea.value = value;
             textarea.selectionStart = replaceLeft;
@@ -199,3 +199,17 @@ keyboard.addEventListener('mouseup', (evt) => {
   if (pressedKey && pressedKey.className.includes('pressed')) pressedKey.classList.remove('pressed');
 });
 
+document.addEventListener('keydown', (evt) => {
+  if (evt.code == 'Tab') evt.preventDefault();
+  pressedKey = evt.code;
+  const key = document.querySelector('.' + evt.code);
+  key.classList.add('pressed');
+  //console.log(evt.code);
+});
+
+document.addEventListener('keyup', (evt) => {
+  pressedKey = evt.code;
+  const key = document.querySelector('.' + evt.code);
+  key.classList.remove('pressed');
+  //console.log(evt.code);
+});
