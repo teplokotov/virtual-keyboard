@@ -144,6 +144,16 @@ keyboard.addEventListener('click', (evt) => {
             textarea.selectionEnd = start;
           };
           break;
+        case 'Enter':
+          if (start >= 0 && start <= value.length) {
+            value = value.slice(0, start) + '\n' + value.slice(end, value.length);
+            textarea.value = value;
+            textarea.selectionStart = start + 1;
+            textarea.selectionEnd = start + 1;
+          } else {
+            textarea.value += '\n';
+          };
+          break;
       }
     } else {
       if (start >= 0 && start <= value.length) {
