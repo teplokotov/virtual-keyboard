@@ -2,6 +2,7 @@ import {  keys, keysObj, lang, specialKeys } from './keys.js'
 
 let curLang = 'rus';
 let curMode = 'caseDown';
+let pressedKey;
 
 const body = document.querySelector('.body');
 
@@ -105,11 +106,17 @@ document.addEventListener('click', (evt) => {
   textarea.focus();
 });
 
-keyboard.addEventListener('click', (evt) => {
+keyboard.addEventListener('mousedown', (evt) => {
   textarea.focus();
   if (evt.target.closest('.keyboard__key')) {
 
-    const charCode = evt.target.closest('.keyboard__key').classList[1];
+    const key = evt.target.closest('.keyboard__key');
+
+    pressedKey = key;
+    key.classList.add('pressed');
+    //setTimeout(() => key.classList.remove('pressed'), 80);
+
+    const charCode = key.classList[1];
     const char = keysObj[charCode][curLang][curMode];
     let value = textarea.value;
     let start;
@@ -164,6 +171,15 @@ keyboard.addEventListener('click', (evt) => {
             textarea.value += '    ';
           };
           break;
+        case 'ShiftLeft':
+          console.log('ShiftLeft');
+          break;
+        case 'ShiftRight':
+          console.log('ShiftRight');
+          break;
+        case 'CapsLock':
+          console.log('CapsLock');
+          break;
       }
     } else {
       if (start >= 0 && start <= value.length) {
@@ -177,5 +193,9 @@ keyboard.addEventListener('click', (evt) => {
 
 
   }
+});
+
+keyboard.addEventListener('mouseup', (evt) => {
+  if (pressedKey && pressedKey.className.includes('pressed')) pressedKey.classList.remove('pressed');
 });
 
