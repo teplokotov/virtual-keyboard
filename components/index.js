@@ -1,5 +1,8 @@
 import {  keys, keysObj, lang } from './keys.js'
 
+let curLang = 'rus';
+let curMode = 'caseDown';
+
 const body = document.querySelector('.body');
 
 // Page
@@ -51,7 +54,8 @@ for (let i = 0; i < 5; i++) {
     // Langs
     for (let k = 0; k < lang.length; k++) {
       const spanLang = document.createElement('span');
-      spanLang.className = lang[k];
+      const isHidden = lang[k] === curLang ? '' : ' hidden';
+      spanLang.className = lang[k] + isHidden;
       keyboardKey.append(spanLang);
       // caseDown
       const caseDown = document.createElement('span');
@@ -60,17 +64,17 @@ for (let i = 0; i < 5; i++) {
       spanLang.append(caseDown);
       // caseUp
       const caseUp = document.createElement('span');
-      caseUp.className = 'caseUp';
+      caseUp.className = 'caseUp hidden';
       caseUp.textContent = keysObj[keys[i][j]][lang[k]].caseUp;
       spanLang.append(caseUp);
       // caseUp
       const caps = document.createElement('span');
-      caps.className = 'caps';
+      caps.className = 'caps hidden';
       caps.textContent = keysObj[keys[i][j]][lang[k]].caps;
       spanLang.append(caps);
       // shiftCaps
       const shiftCaps = document.createElement('span');
-      shiftCaps.className = 'shiftCaps';
+      shiftCaps.className = 'shiftCaps hidden';
       shiftCaps.textContent = keysObj[keys[i][j]][lang[k]].shiftCaps;
       spanLang.append(shiftCaps);
     }
@@ -91,3 +95,38 @@ footer.append(p1);
 footer.append(p2);
 p1.textContent = 'Для смены языка используйте сочетание Left Ctrl + Shift';
 p2.textContent = 'Клавиатура создана в операционной системе Windows';
+
+
+document.addEventListener('mouseover', (evt) => {
+  textarea.focus();
+});
+
+document.addEventListener('click', (evt) => {
+  textarea.focus();
+});
+
+keyboard.addEventListener('click', (evt) => {
+  if (evt.target.closest('.keyboard__key')) {
+
+    const char = keysObj[evt.target.closest('.keyboard__key').classList[1]][curLang][curMode];
+    let value = textarea.value;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    if (start == end) {
+      if (start >= 0 && start <= value.length) {
+        textarea.value = value.slice(0, start) + char + value.slice(start, value.length);
+        textarea.selectionStart = start + char.length;
+        textarea.selectionEnd = start + char.length;
+      } else {
+        textarea.value += char;
+      }
+    } else {
+      textarea.value = value.slice(0, start) + char + value.slice(end, value.length);
+      textarea.selectionStart = start + char.length;
+      textarea.selectionEnd = start + char.length;
+    }
+
+  }
+});
+
