@@ -130,6 +130,35 @@ const setShiftCaps = () => {
   shiftCapsAll.forEach(item => item.classList.remove('hidden'));
 }
 
+const rusSpans = document.querySelectorAll('.rus');
+const engSpans = document.querySelectorAll('.eng');
+
+const setLang = (lang) => {
+  if (lang == 'rus') {
+    engSpans.forEach(item => item.classList.add('hidden'));
+    rusSpans.forEach(item => item.classList.remove('hidden'));
+  }
+  if (lang == 'eng') {
+    engSpans.forEach(item => item.classList.remove('hidden'));
+    rusSpans.forEach(item => item.classList.add('hidden'));
+  }
+  switch (curMode) {
+    case 'caseDown':
+      setCaseDown();
+      break;
+    case 'caseUp':
+      setCaseUp();
+      break;
+    case 'caps':
+      setCaps();
+      break;
+    case 'shiftCaps':
+      setShiftCaps();
+      break;
+  }
+  curLang = lang;
+}
+
 document.addEventListener('mouseover', (evt) => {
   textarea.focus();
 });
@@ -184,6 +213,9 @@ keyboard.addEventListener('mousedown', (evt) => {
       key.classList.toggle('pressed');
       curMode = 'shiftCaps';
       setShiftCaps();
+    } else if (pressedKey.classList.contains('ToggleLang')) {
+      curLang === 'rus' ? setLang('eng') : setLang('rus');
+      key.classList.add('pressed');
     } else {
       key.classList.add('pressed');
     }
@@ -328,17 +360,12 @@ document.addEventListener('keydown', (evt) => {
   }
 
   insertSymbols(key);
-  // const charCode = key.classList[1];
-  // const char = keysObj[charCode][curLang][curMode];
-  // textarea.value += char;
 });
 
 document.addEventListener('keyup', (evt) => {
   pressedKey = evt.code;
   const key = document.querySelector('.' + evt.code);
-  //key.classList.remove('pressed');
-  //console.log(evt.code);
-  // if (pressedKey !== 'CapsLock' && pressedKey !== 'ShiftLeft' && pressedKey !== 'ShiftRight') {
+
   if (pressedKey !== 'CapsLock' && pressedKey !== 'ShiftLeft' && pressedKey !== 'ShiftRight') {
     key.classList.remove('pressed');
   }
