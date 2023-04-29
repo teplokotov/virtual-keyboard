@@ -60,7 +60,7 @@ for (let i = 0; i < 5; i++) {
       keyboardKey.append(spanLang);
       // caseDown
       const caseDown = document.createElement('span');
-      caseDown.className = 'caseDown';
+      caseDown.className = 'caseDown' + isHidden;
       caseDown.textContent = keysObj[keys[i][j]][lang[k]].caseDown;
       spanLang.append(caseDown);
       // caseUp
@@ -101,7 +101,6 @@ const capsAll = document.querySelectorAll('.caps');
 const caseDownAll = document.querySelectorAll('.caseDown');
 const caseUpAll = document.querySelectorAll('.caseUp');
 const shiftCapsAll = document.querySelectorAll('.shiftCaps');
-// capsAll.forEach(item => item.classList.remove('hidden'))
 
 const setCaps = () => {
   capsAll.forEach(item => item.classList.remove('hidden'));
@@ -115,6 +114,20 @@ const setCaseDown = () => {
   caseDownAll.forEach(item => item.classList.remove('hidden'));
   caseUpAll.forEach(item => item.classList.add('hidden'));
   shiftCapsAll.forEach(item => item.classList.add('hidden'));
+}
+
+const setCaseUp = () => {
+  capsAll.forEach(item => item.classList.add('hidden'));
+  caseDownAll.forEach(item => item.classList.add('hidden'));
+  caseUpAll.forEach(item => item.classList.remove('hidden'));
+  shiftCapsAll.forEach(item => item.classList.add('hidden'));
+}
+
+const setShiftCaps = () => {
+  capsAll.forEach(item => item.classList.add('hidden'));
+  caseDownAll.forEach(item => item.classList.add('hidden'));
+  caseUpAll.forEach(item => item.classList.add('hidden'));
+  shiftCapsAll.forEach(item => item.classList.remove('hidden'));
 }
 
 document.addEventListener('mouseover', (evt) => {
@@ -140,6 +153,15 @@ keyboard.addEventListener('mousedown', (evt) => {
       } else {
         curMode = 'caps';
         setCaps();
+      }
+    } else if (pressedKey.classList.contains('ShiftLeft') || pressedKey.classList.contains('ShiftRight')) {
+      key.classList.toggle('pressed');
+      if (curMode == 'caseUp') {
+        curMode = 'caseDown';
+        setCaseDown();
+      } else {
+        curMode = 'caseUp';
+        setCaseUp();
       }
     } else {
       key.classList.add('pressed');
@@ -226,7 +248,7 @@ keyboard.addEventListener('mousedown', (evt) => {
 
 keyboard.addEventListener('mouseup', (evt) => {
   if (pressedKey && pressedKey.className.includes('pressed')) {
-    if (!pressedKey.classList.contains('CapsLock')) {
+    if (!pressedKey.classList.contains('CapsLock') && !pressedKey.classList.contains('ShiftLeft') && !pressedKey.classList.contains('ShiftRight')) {
       pressedKey.classList.remove('pressed');
     }
   }
@@ -247,6 +269,15 @@ document.addEventListener('keydown', (evt) => {
       curMode = 'caps';
       setCaps();
     }
+  } else if (pressedKey == 'ShiftLeft' || pressedKey == 'ShiftRight') {
+    key.classList.toggle('pressed');
+    if (curMode == 'caseUp') {
+      curMode = 'caseDown';
+      setCaseDown();
+    } else {
+      curMode = 'caseUp';
+      setCaseUp();
+    }
   } else {
     key.classList.add('pressed');
   }
@@ -261,7 +292,7 @@ document.addEventListener('keyup', (evt) => {
   const key = document.querySelector('.' + evt.code);
   //key.classList.remove('pressed');
   //console.log(evt.code);
-  if (pressedKey !== 'CapsLock') {
+  if (pressedKey !== 'CapsLock' && pressedKey !== 'ShiftLeft' && pressedKey !== 'ShiftRight') {
     key.classList.remove('pressed');
   }
 });
