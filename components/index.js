@@ -94,7 +94,7 @@ p1.className = 'footer__text';
 p2.className = 'footer__text';
 footer.append(p1);
 footer.append(p2);
-p1.textContent = 'Для смены языка используйте сочетание Left Ctrl + Shift';
+p1.textContent = 'Для смены языка используйте сочетание Left Ctrl + Alt';
 p2.textContent = 'Клавиатура создана в операционной системе Windows';
 
 const capsAll = document.querySelectorAll('.caps');
@@ -313,6 +313,11 @@ keyboard.addEventListener('mouseup', (evt) => {
 });
 
 document.addEventListener('keydown', (evt) => {
+
+  if (evt.ctrlKey && evt.key === 'Alt')  {
+    curLang === 'rus' ? setLang('eng') : setLang('rus');
+  }
+
   evt.preventDefault();
   pressedKey = evt.code;
   const key = document.querySelector('.' + evt.code);
