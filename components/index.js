@@ -160,20 +160,24 @@ keyboard.addEventListener('mousedown', (evt) => {
           setCaps();
       }
     } else if ((pressedKey.classList.contains('ShiftLeft') || pressedKey.classList.contains('ShiftRight')) && curMode !== 'caps') {
+
       key.classList.toggle('pressed');
-      switch (curMode) {
-        case 'caseUp':
-          curMode = 'caseDown';
-          setCaseDown();
-          break;
-        case 'shiftCaps':
-          curMode = 'caps';
-          setCaps();
-          break;
-        default:
-          curMode = 'caseUp';
-          setCaseUp();
-      }
+
+        switch (curMode) {
+          case 'caseUp':
+            curMode = 'caseDown';
+            setCaseDown();
+            break;
+          case 'shiftCaps':
+            curMode = 'caps';
+            setCaps();
+            break;
+          default:
+            curMode = 'caseUp';
+            setCaseUp();
+        }
+
+
     } else if ((pressedKey.classList.contains('CapsLock') && curMode == 'caseUp') ||
     ((pressedKey.classList.contains('ShiftLeft') || pressedKey.classList.contains('ShiftRight')) && curMode == 'caps')) {
       console.log(777);
@@ -184,6 +188,14 @@ keyboard.addEventListener('mousedown', (evt) => {
       key.classList.add('pressed');
     }
 
+    insertSymbols(key);
+
+
+  }
+});
+
+
+function insertSymbols(key) {
     const charCode = key.classList[1];
     const char = keysObj[charCode][curLang][curMode];
     let value = textarea.value;
@@ -258,10 +270,7 @@ keyboard.addEventListener('mousedown', (evt) => {
         textarea.value += char;
       }
     }
-
-
-  }
-});
+}
 
 keyboard.addEventListener('mouseup', (evt) => {
   if (pressedKey && pressedKey.className.includes('pressed')) {
@@ -318,9 +327,10 @@ document.addEventListener('keydown', (evt) => {
     key.classList.add('pressed');
   }
 
-  const charCode = key.classList[1];
-  const char = keysObj[charCode][curLang][curMode];
-  textarea.value += char;
+  insertSymbols(key);
+  // const charCode = key.classList[1];
+  // const char = keysObj[charCode][curLang][curMode];
+  // textarea.value += char;
 });
 
 document.addEventListener('keyup', (evt) => {
