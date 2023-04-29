@@ -328,7 +328,24 @@ document.addEventListener('keyup', (evt) => {
   const key = document.querySelector('.' + evt.code);
   //key.classList.remove('pressed');
   //console.log(evt.code);
+  // if (pressedKey !== 'CapsLock' && pressedKey !== 'ShiftLeft' && pressedKey !== 'ShiftRight') {
   if (pressedKey !== 'CapsLock' && pressedKey !== 'ShiftLeft' && pressedKey !== 'ShiftRight') {
     key.classList.remove('pressed');
+  }
+  if (pressedKey == 'ShiftLeft' || pressedKey == 'ShiftRight') {
+    key.classList.remove('pressed');
+    switch (curMode) {
+      case 'caseUp':
+        curMode = 'caseDown';
+        setCaseDown();
+        break;
+      case 'shiftCaps':
+        curMode = 'caps';
+        setCaps();
+        break;
+      default:
+        curMode = 'caseUp';
+        setCaseUp();
+    }
   }
 });
