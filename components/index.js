@@ -143,26 +143,43 @@ keyboard.addEventListener('mousedown', (evt) => {
   if (evt.target.closest('.keyboard__key')) {
 
     const key = evt.target.closest('.keyboard__key');
-
     pressedKey = key;
-    if (pressedKey.classList.contains('CapsLock')) {
+    if (pressedKey.classList.contains('CapsLock') && curMode !== 'caseUp') {
       key.classList.toggle('pressed');
-      if (curMode == 'caps') {
-        curMode = 'caseDown';
-        setCaseDown();
-      } else {
-        curMode = 'caps';
-        setCaps();
+      switch (curMode) {
+        case 'caps':
+          curMode = 'caseDown';
+          setCaseDown();
+          break;
+        case 'shiftCaps':
+          curMode = 'caseUp';
+          setCaseUp();
+          break;
+        default:
+          curMode = 'caps';
+          setCaps();
       }
-    } else if (pressedKey.classList.contains('ShiftLeft') || pressedKey.classList.contains('ShiftRight')) {
+    } else if ((pressedKey.classList.contains('ShiftLeft') || pressedKey.classList.contains('ShiftRight')) && curMode !== 'caps') {
       key.classList.toggle('pressed');
-      if (curMode == 'caseUp') {
-        curMode = 'caseDown';
-        setCaseDown();
-      } else {
-        curMode = 'caseUp';
-        setCaseUp();
+      switch (curMode) {
+        case 'caseUp':
+          curMode = 'caseDown';
+          setCaseDown();
+          break;
+        case 'shiftCaps':
+          curMode = 'caps';
+          setCaps();
+          break;
+        default:
+          curMode = 'caseUp';
+          setCaseUp();
       }
+    } else if ((pressedKey.classList.contains('CapsLock') && curMode == 'caseUp') ||
+    ((pressedKey.classList.contains('ShiftLeft') || pressedKey.classList.contains('ShiftRight')) && curMode == 'caps')) {
+      console.log(777);
+      key.classList.toggle('pressed');
+      curMode = 'shiftCaps';
+      setShiftCaps();
     } else {
       key.classList.add('pressed');
     }
@@ -223,13 +240,13 @@ keyboard.addEventListener('mousedown', (evt) => {
           };
           break;
         case 'ShiftLeft':
-          console.log('ShiftLeft');
+          //console.log('ShiftLeft');
           break;
         case 'ShiftRight':
-          console.log('ShiftRight');
+          //console.log('ShiftRight');
           break;
         case 'CapsLock':
-          console.log('CapsLock');
+          //console.log('CapsLock');
           break;
       }
     } else {
@@ -259,7 +276,7 @@ document.addEventListener('keydown', (evt) => {
   pressedKey = evt.code;
   const key = document.querySelector('.' + evt.code);
 
-  console.log(evt.code);
+  //console.log(evt.code);
   if (pressedKey == 'CapsLock') {
     key.classList.toggle('pressed');
     if (curMode == 'caps') {
