@@ -118,9 +118,9 @@ export const keysObj = {
     },
       eng: {
       caseDown: '7',
-      caseUp: '&amp;',
+      caseUp: '&',
       caps: '7',
-      shiftCaps: '&amp;'
+      shiftCaps: '&'
     }
   },
   Digit8: {
@@ -720,9 +720,9 @@ export const keysObj = {
     },
     eng: {
       caseDown: ',',
-      caseUp: '&lt;',
+      caseUp: '<',
       caps: ',',
-      shiftCaps: '&lt;'
+      shiftCaps: '<'
     }
   },
   Period: {
@@ -734,9 +734,9 @@ export const keysObj = {
     },
     eng: {
       caseDown: '.',
-      caseUp: '&gt;',
+      caseUp: '>',
       caps: '.',
-      shiftCaps: '&gt;',
+      shiftCaps: '>',
     }
   },
   Slash: {
