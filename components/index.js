@@ -113,8 +113,11 @@ keyboard.addEventListener('mousedown', (evt) => {
     const key = evt.target.closest('.keyboard__key');
 
     pressedKey = key;
-    key.classList.add('pressed');
-    //setTimeout(() => key.classList.remove('pressed'), 80);
+    if (pressedKey.classList.contains('CapsLock')) {
+      key.classList.toggle('pressed');
+    } else {
+      key.classList.add('pressed');
+    }
 
     const charCode = key.classList[1];
     const char = keysObj[charCode][curLang][curMode];
@@ -196,20 +199,36 @@ keyboard.addEventListener('mousedown', (evt) => {
 });
 
 keyboard.addEventListener('mouseup', (evt) => {
-  if (pressedKey && pressedKey.className.includes('pressed')) pressedKey.classList.remove('pressed');
+  if (pressedKey && pressedKey.className.includes('pressed')) {
+    if (!pressedKey.classList.contains('CapsLock')) {
+      pressedKey.classList.remove('pressed');
+    }
+  }
 });
 
 document.addEventListener('keydown', (evt) => {
-  if (evt.code == 'Tab') evt.preventDefault();
+  evt.preventDefault();
   pressedKey = evt.code;
   const key = document.querySelector('.' + evt.code);
-  key.classList.add('pressed');
-  //console.log(evt.code);
+
+  console.log(evt.code);
+  if (pressedKey == 'CapsLock') {
+    key.classList.toggle('pressed');
+  } else {
+    key.classList.add('pressed');
+  }
+
+  const charCode = key.classList[1];
+  const char = keysObj[charCode][curLang][curMode];
+  textarea.value += char;
 });
 
 document.addEventListener('keyup', (evt) => {
   pressedKey = evt.code;
   const key = document.querySelector('.' + evt.code);
-  key.classList.remove('pressed');
+  //key.classList.remove('pressed');
   //console.log(evt.code);
+  if (pressedKey !== 'CapsLock') {
+    key.classList.remove('pressed');
+  }
 });
