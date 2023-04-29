@@ -167,7 +167,7 @@ document.addEventListener('click', (evt) => {
   textarea.focus();
 });
 
-keyboard.addEventListener('mousedown', (evt) => {
+document.addEventListener('mousedown', (evt) => {
   textarea.focus();
   if (evt.target.closest('.keyboard__key')) {
 
@@ -304,8 +304,8 @@ function insertSymbols(key) {
     }
 }
 
-keyboard.addEventListener('mouseup', (evt) => {
-  if (pressedKey && pressedKey.className.includes('pressed')) {
+document.addEventListener('mouseup', (evt) => {
+  if (typeof pressedKey === 'object' && pressedKey.className.includes('pressed')) {
     if (!pressedKey.classList.contains('CapsLock') && !pressedKey.classList.contains('ShiftLeft') && !pressedKey.classList.contains('ShiftRight')) {
       pressedKey.classList.remove('pressed');
     }
