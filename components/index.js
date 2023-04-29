@@ -97,6 +97,25 @@ footer.append(p2);
 p1.textContent = 'Для смены языка используйте сочетание Left Ctrl + Shift';
 p2.textContent = 'Клавиатура создана в операционной системе Windows';
 
+const capsAll = document.querySelectorAll('.caps');
+const caseDownAll = document.querySelectorAll('.caseDown');
+const caseUpAll = document.querySelectorAll('.caseUp');
+const shiftCapsAll = document.querySelectorAll('.shiftCaps');
+// capsAll.forEach(item => item.classList.remove('hidden'))
+
+const setCaps = () => {
+  capsAll.forEach(item => item.classList.remove('hidden'));
+  caseDownAll.forEach(item => item.classList.add('hidden'));
+  caseUpAll.forEach(item => item.classList.add('hidden'));
+  shiftCapsAll.forEach(item => item.classList.add('hidden'));
+}
+
+const setCaseDown = () => {
+  capsAll.forEach(item => item.classList.add('hidden'));
+  caseDownAll.forEach(item => item.classList.remove('hidden'));
+  caseUpAll.forEach(item => item.classList.add('hidden'));
+  shiftCapsAll.forEach(item => item.classList.add('hidden'));
+}
 
 document.addEventListener('mouseover', (evt) => {
   textarea.focus();
@@ -115,6 +134,13 @@ keyboard.addEventListener('mousedown', (evt) => {
     pressedKey = key;
     if (pressedKey.classList.contains('CapsLock')) {
       key.classList.toggle('pressed');
+      if (curMode == 'caps') {
+        curMode = 'caseDown';
+        setCaseDown();
+      } else {
+        curMode = 'caps';
+        setCaps();
+      }
     } else {
       key.classList.add('pressed');
     }
@@ -214,6 +240,13 @@ document.addEventListener('keydown', (evt) => {
   console.log(evt.code);
   if (pressedKey == 'CapsLock') {
     key.classList.toggle('pressed');
+    if (curMode == 'caps') {
+      curMode = 'caseDown';
+      setCaseDown();
+    } else {
+      curMode = 'caps';
+      setCaps();
+    }
   } else {
     key.classList.add('pressed');
   }
