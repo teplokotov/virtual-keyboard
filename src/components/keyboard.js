@@ -1,9 +1,9 @@
-import {  keys, keysObj, lang } from './keys.js';
-import {  curLang } from './langSwitcher.js';
+import { keys, keysObj, lang } from './keys';
+// eslint-disable-next-line import/no-cycle
+import { curLang } from './langSwitcher';
 
 // Drawing keyboard in Body
 export const drawKeyboard = () => {
-
   const body = document.querySelector('body');
 
   // Page
@@ -31,8 +31,8 @@ export const drawKeyboard = () => {
   const textarea = document.createElement('textarea');
   textarea.className = 'textarea';
   textarea.id = 'textarea';
-  textarea.setAttribute('cols',50);
-  textarea.setAttribute('rows',5);
+  textarea.setAttribute('cols', 50);
+  textarea.setAttribute('rows', 5);
   main.append(textarea);
 
   // Keyboard
@@ -42,14 +42,12 @@ export const drawKeyboard = () => {
   main.append(keyboard);
 
   // Draw each string
-  for (let i = 0; i < 5; i++) {
-
+  for (let i = 0; i < 5; i += 1) {
     const keyboardRow = document.createElement('div');
     keyboardRow.className = 'keyboard__row';
     keyboard.append(keyboardRow);
 
-    for (let j = 0; j < keys[i].length; j++) {
-
+    for (let j = 0; j < keys[i].length; j += 1) {
       // Keyboard key
       const keyboardKey = document.createElement('div');
       keyboardKey.className = 'keyboard__key';
@@ -57,8 +55,7 @@ export const drawKeyboard = () => {
       keyboardRow.append(keyboardKey);
 
       // Langs
-      for (let k = 0; k < lang.length; k++) {
-
+      for (let k = 0; k < lang.length; k += 1) {
         const spanLang = document.createElement('span');
         const isHidden = lang[k] === curLang ? '' : ' hidden';
         spanLang.className = lang[k] + isHidden;
@@ -87,7 +84,6 @@ export const drawKeyboard = () => {
         shiftCaps.className = 'shiftCaps hidden';
         shiftCaps.textContent = keysObj[keys[i][j]][lang[k]].shiftCaps;
         spanLang.append(shiftCaps);
-
       }
     }
   }
@@ -99,15 +95,14 @@ export const drawKeyboard = () => {
 
   // Footer text
   const p1 = document.createElement('p');
-  const p2= document.createElement('p');
+  const p2 = document.createElement('p');
   p1.className = 'footer__text';
   p2.className = 'footer__text';
   footer.append(p1);
   footer.append(p2);
   p1.textContent = 'Для смены языка используйте сочетание Left Ctrl + Alt';
   p2.textContent = 'Клавиатура создана в операционной системе Windows';
-
-}
+};
 
 // Selecting all switch buttons for modeSwitcher
 export const selectAllSwitchBtns = () => {
@@ -115,12 +110,14 @@ export const selectAllSwitchBtns = () => {
   const caseDownAll = document.querySelectorAll('.caseDown');
   const caseUpAll = document.querySelectorAll('.caseUp');
   const shiftCapsAll = document.querySelectorAll('.shiftCaps');
-  return {capsAll, caseDownAll, caseUpAll, shiftCapsAll};
-}
+  return {
+    capsAll, caseDownAll, caseUpAll, shiftCapsAll,
+  };
+};
 
 // Selecting all <span> of languages for langSwitcher
 export const selectAllLangSpan = () => {
   const rusSpans = document.querySelectorAll('.rus');
   const engSpans = document.querySelectorAll('.eng');
-  return {rusSpans, engSpans};
-}
+  return { rusSpans, engSpans };
+};
