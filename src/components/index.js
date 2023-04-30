@@ -1,3 +1,4 @@
+import '../pages/index.css';
 import {  drawKeyboard } from './keyboard.js';
 import {  curLang, setLang } from './langSwitcher.js';
 import {  curMode } from './modeSwitcher.js';
