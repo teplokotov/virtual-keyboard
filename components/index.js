@@ -1,6 +1,7 @@
 import {  keys, keysObj, lang, specialKeys } from './keys.js'
 
-let curLang = 'rus';
+let curLang = window.localStorage.getItem('lang') ? window.localStorage.getItem('lang') : 'rus';
+window.localStorage.setItem('lang', curLang);
 let curMode = 'caseDown';
 let pressedKey;
 
@@ -157,6 +158,7 @@ const setLang = (lang) => {
       break;
   }
   curLang = lang;
+  window.localStorage.setItem('lang', curLang);
 }
 
 document.addEventListener('mouseover', (evt) => {
